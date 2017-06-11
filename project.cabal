@@ -16,6 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     UrlOps
+                     , Crawler
   build-depends:       base >= 4.7 && < 5
                      , hxt
                      , hxt-curl (==9.1.1.1)

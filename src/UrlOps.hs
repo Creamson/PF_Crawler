@@ -19,6 +19,7 @@ getBaseUrl link | isPrefixOf "http" link = case split of (x:y:z:_) -> x ++ "//" 
 makeFullLink :: String  -- ^ Link to the base source page (ex. stackoverflow.com).
              -> String  -- ^ Path extracted from an \<a\> tag.
              -> String  -- ^ Absolute link to the referenced page.
+makeFullLink baseUrl link@('h':'t':'t':'p':xs) = link
 makeFullLink baseUrl ('/':'/':xs) = "http://" ++ xs
 makeFullLink baseUrl xs@('/':link) = baseUrl ++ xs
-makeFullLink baseUrl _ = baseUrl
+makeFullLink baseUrl link = if isInfixOf "." $ head $ splitOn "/" link then link else baseUrl

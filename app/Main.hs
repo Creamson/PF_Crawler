@@ -10,9 +10,6 @@ import Data.List
 
 main = do
   [src, depth] <- getArgs
-  --let doc = readDocument [withParseHTML yes, withWarnings no, withCurl []] src
-  --links <- runX $ doc >>> multi (hasName "a") >>> getAttrValue "href"
-  --mapM_ putStrLn links
   walkPage src (read depth :: Int) Set.empty []
 
 walkPage :: String -> Int -> Set.Set String -> [(String, Int)] -> IO ()
@@ -46,5 +43,5 @@ makeFullLink :: String -> String -> String
 makeFullLink baseUrl ('/':'/':xs) = "http://" ++ xs
 makeFullLink baseUrl [] = baseUrl
 makeFullLink baseUrl ('/':link) = baseUrl ++ ('/':link)
-makeFullLink baseUrl link = link
+makeFullLink baseUrl link = baseUrl
 

@@ -1,0 +1,16 @@
+projekt Fractals wykonany przez Annę Kolonko i Macieja Kocota
+
+
++ przejrzysty kod
++ wiadomości dla użytkownika odseparowane od logiki
++ dodanie folderu z przykładowymi wynikami
++ ukrycie typów, które nie są przydatne poza modułe
++ użycie ciekawej biblioteki do tworzenia plików SVG
+
+
+- brak komentarzy w Main.hs
+- czasami pojawiają się niepotrzebne nawiasy
+- brak informacji o parametrach dla których wygenerowano przykładowe fraktale
+- brak typów kilku stałych i funkcji
+- mało dokładne opisy zawiłych funkcji matematycznych
+- niekonsekwencja w nazywaniu modułów (Ship zmiast stosowanego w innych miejscach BurningShip)

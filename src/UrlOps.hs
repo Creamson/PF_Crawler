@@ -20,5 +20,5 @@ makeFullLink :: String  -- ^ Link to the base source page (ex. stackoverflow.com
              -> String  -- ^ Path extracted from an \<a\> tag.
              -> String  -- ^ Absolute link to the referenced page.
 makeFullLink baseUrl ('/':'/':xs) = "http://" ++ xs
-makeFullLink baseUrl ('/':link) = baseUrl ++ ('/':link)
+makeFullLink baseUrl xs@('/':link) = baseUrl ++ xs
 makeFullLink baseUrl _ = baseUrl

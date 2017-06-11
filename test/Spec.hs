@@ -7,7 +7,7 @@ import Data.List
 import UrlOps
 
 main :: IO ()
-main = defaultMain [getBaseUrlTest, makeFullLinkTest, getBaseUrlQuickTest]
+main = defaultMain [getBaseUrlTest, makeFullLinkTest, getBaseUrlQuickTest, getBaseUrlHttpQuickTest, makeFullLinkQuickTest]
 
 getBaseUrlTest :: Test
 getBaseUrlTest = testGroup "Unit test of getBaseUrl"
@@ -29,8 +29,33 @@ makeFullLinkTest = testGroup "Unit test of makeFullLink"
 
 getBaseUrlQuickTest :: Test
 getBaseUrlQuickTest = testGroup "QuickCheck test of getBaseUrl without http"
-   [testProperty "For strings without /" (forAll (genStr 10 (\x -> (not $ '/' `elem` x) && (not $ "http" `isPrefixOf` x))) (\value -> getBaseUrl value == value)),
-   testProperty "For strings with /" (forAll (genStr 10 (\x -> ('/' `elem` x) && (not $ "http" `isPrefixOf` x))) (\value -> getBaseUrl value == takeWhile (/= '/') value))]
+   [testProperty "For strings without /" (forAll (genStr 10 $ (not . containsSlash) `andFunc` (not . containsHttp))
+                                         (\value -> getBaseUrl value == value)),
+   testProperty "For strings with /" (forAll (genStr 10 $ containsSlash `andFunc` (not . containsHttp))
+                                     (\value -> getBaseUrl value == takeToSlash value))]
 
+getBaseUrlHttpQuickTest :: Test
+getBaseUrlHttpQuickTest = testGroup "QuickCheck test of getBaseUrl with http"
+   [testProperty "For strings with /" (forAll (genStr 10 $ containsSlash `andFunc` (not . containsHttp))
+                                      (\value -> (getBaseUrl $ "http://" ++ value) == ("http://" ++ takeToSlash value)))]
+
+makeFullLinkQuickTest :: Test
+makeFullLinkQuickTest = testGroup "QuickCheck test of makeFullLink"
+   [testProperty "For strings starts with /" (forAll (genStr 10 $ containsSlash `andFunc` (not . containsSlash . tail))
+                                             (\value -> makeFullLink "https://github.com" value == "https://github.com" ++ value))]
+
+--helpers
 genStr :: Int -> (String -> Bool) -> Gen String
 genStr n f = suchThat (vectorOf n arbitrary) f
+
+takeToSlash :: String -> String
+takeToSlash = takeWhile (/= '/')
+
+andFunc :: (String -> Bool) -> (String -> Bool) -> String -> Bool
+andFunc f g x = f x && g x
+
+containsHttp :: String -> Bool
+containsHttp x = "http" `isPrefixOf` x
+
+containsSlash :: String -> Bool
+containsSlash x = '/' `elem` x

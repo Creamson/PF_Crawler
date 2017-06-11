@@ -26,7 +26,7 @@ makeFullLinkTest = testGroup "Unit test of makeFullLink"
         assertEqual "makeFullLink \"https://github.com\" \"/about\"" "https://github.com/about" $ makeFullLink "https://github.com" "/about"),
     testCase "makeFullLink when link starts with double /" (
         assertEqual "makeFullLink \"https://github.com\" \"//about.com\"" "http://about.com" $ makeFullLink "https://github.com" "//about.com"),
-	testCase "makeFullLink when link absolute with http" (
+    testCase "makeFullLink when link absolute with http" (
         assertEqual "makeFullLink \"https://github.com\" \"https://stackexchange.com\"" "https://stackexchange.com" $ makeFullLink "https://github.com" "https://stackexchange.com"),
     testCase "makeFullLink when link absolute without http" (
         assertEqual "makeFullLink \"https://github.com\" \"stackexchange.com\"" "stackexchange.com" $ makeFullLink "https://github.com" "stackexchange.com"),

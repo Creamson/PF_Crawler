@@ -7,4 +7,8 @@ to build:
 to run:  
 ```stack exec project-exe <link> <depth of the crawl tree>```  
 to run tests:  
-```stack test```
+```stack test```  
+
+### Authors:
+* Jacek Stobiecki
+* Paweł Wandzel
